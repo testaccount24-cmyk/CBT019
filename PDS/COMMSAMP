@@ -1,0 +1,54 @@
+//STEP1    EXEC PGM=COMMAND
+//*******************************************************************
+//*                                                                 *
+//*        SAMPLE SYSTEM SHUTDOWN USING THE COMMAND PROGRAM         *
+//*                                                                 *
+//*******************************************************************
+//STEPLIB  DD DISP=SHR,DSN=SYS1.CBT.LINKLIB
+//IEFRDER  DD  *
+*         STOP    " REQUIRED FOR ACB PROCESSING ON Z NET,QUICK "
+P TCPIP
+F OMVS,STOPPFS=ZFS
+REPLY OMVS 'BPXI078D' 'Y'
+V 560,OFFLINE
+V 561,OFFLINE
+V 562,OFFLINE
+V 563,OFFLINE
+V 564,OFFLINE
+V 565,OFFLINE
+V 566,OFFLINE
+V 567,OFFLINE
+V 568,OFFLINE
+C NFSC
+P LLA
+P VLF
+F DLF,MODE=Q
+DELAY 5
+P DLF
+C INETD4
+F BPXOINIT,SHUTDOWN=FORKINIT
+C APPC
+C ASCH
+C NFSS
+C TSSO
+P SDSF
+F OMVS,SHUTDOWN
+P TN3270
+P HZSPROC
+P TSO
+Z NET,QUICK
+#STOP
+P RMF
+P CSF
+P HZR
+C RRS
+P PAGENT
+C SSHD3
+C AXR01
+C AXR02
+C AXR03
+C AXR04
+C AXR05
+C AXR06
+C CFZCIM
+C SSHD4
